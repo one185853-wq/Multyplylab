@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MultiplyLab — Media Pembelajaran Operasi Perkalian</title>
+<style>
+:root{--navy:#16264b;--blue:#315bd6;--blue2:#eaf0ff;--ink:#202b3c;--muted:#68758a;--line:#e3e8f0;--bg:#f5f7fb;--green:#16834b;--greenbg:#e8f7ef;--red:#b93838;--redbg:#fff0f0;--amber:#a65a08;--amberbg:#fff5e5;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif}
+button,input,select{font:inherit}button{cursor:pointer}.hidden{display:none!important}
+header{background:var(--navy);color:white;padding:13px max(4vw,18px);display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;position:sticky;top:0;z-index:5;box-shadow:0 3px 15px #14213d22}
+.brand{font-size:1.13rem;font-weight:850;letter-spacing:.2px}.brand span{display:block;font-size:.72rem;font-weight:500;opacity:.76;letter-spacing:.4px}
+nav{display:flex;gap:6px;flex-wrap:wrap}nav button{border:1px solid #ffffff40;background:transparent;color:white;padding:8px 12px;border-radius:9px;font-size:.88rem;font-weight:650}nav button.active,nav button:hover{background:#fff;color:var(--navy)}
+main{max-width:1160px;margin:28px auto;padding:0 20px 45px}.view{display:none}.view.active{display:block}
+h1{font-size:clamp(1.8rem,4vw,2.7rem);line-height:1.15;color:var(--navy);margin:9px 0 12px}h2{font-size:1.35rem;color:var(--navy);margin:0 0 10px}h3{color:var(--navy);margin:5px 0 8px}p{color:#526078;margin:7px 0 13px}.eyebrow{font-size:.75rem;font-weight:800;letter-spacing:1px;color:var(--blue);text-transform:uppercase}
+.btn{border:0;background:var(--blue);color:white;padding:11px 17px;border-radius:10px;font-weight:750}.btn:hover{filter:brightness(.96)}.btn.light{background:var(--blue2);color:var(--blue)}.btn.outline{background:white;border:1px solid var(--line);color:var(--ink)}.btn.danger{background:#fff0f0;color:#a22}.btn:disabled{opacity:.45;cursor:not-allowed}
+.hero{border-radius:22px;background:linear-gradient(120deg,#172b58,#315bd6);color:white;padding:clamp(25px,5vw,52px);display:grid;grid-template-columns:1.5fr .8fr;align-items:center;gap:25px;overflow:hidden}
+.hero h1{color:white;font-size:clamp(2rem,5vw,3.35rem)}.hero p{color:#e0e8ff;max-width:650px}.hero .eyebrow{color:#cbd8ff}.hero-art{min-height:220px;border-radius:18px;background:#ffffff13;display:grid;place-items:center;font-size:5rem}
+.pill{display:inline-flex;background:var(--blue2);color:var(--blue);padding:5px 10px;border-radius:99px;font-size:.78rem;font-weight:800}.panel,.card,.stat{background:white;border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 5px 20px #16264b08}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin:20px 0}.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:15px;margin:18px 0}.card{cursor:pointer;transition:.15s}.card:hover{transform:translateY(-2px);border-color:#9eb4ff}.card.locked{opacity:.56;cursor:not-allowed}.icon{font-size:2rem}.card p{font-size:.9rem}.stat strong{font-size:1.8rem;color:var(--blue);display:block}.stat span{font-size:.85rem;color:var(--muted)}
+.statrow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:17px 0}.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.between{justify-content:space-between}.muted{color:var(--muted)}.small{font-size:.85rem}.rule{height:1px;background:var(--line);margin:17px 0}
+input,select{border:1px solid #cbd5e1;border-radius:9px;padding:10px 12px;background:white;max-width:100%}label{font-weight:700;font-size:.9rem}
+.progress{height:9px;border-radius:99px;background:#e8edf5;overflow:hidden}.progress>div{height:100%;background:var(--blue);width:0;transition:.2s}
+.lesson-visual{background:#f1f5ff;border:1px solid #dce6ff;border-radius:14px;padding:18px;text-align:center;font-size:1.2rem;font-weight:800;color:var(--navy);margin:15px 0}
+.callout{padding:13px 15px;border-radius:11px;background:var(--blue2);color:#2344a1;margin:12px 0}.callout.warn{background:var(--amberbg);color:var(--amber)}.callout.good{background:var(--greenbg);color:var(--green)}
+.question{font-size:clamp(1.55rem,4vw,2.25rem);font-weight:850;color:var(--navy);text-align:center;margin:25px 0 18px}.answers{display:grid;grid-template-columns:repeat(2,1fr);gap:11px;max-width:680px;margin:0 auto}.answer{border:2px solid #dce5f8;background:#f8faff;border-radius:12px;padding:14px;font-weight:750;color:#243b72}.answer:hover:not(:disabled){border-color:var(--blue);background:#edf2ff}.answer:disabled{cursor:default}.answer.correct{border-color:#25a566;background:#e8f7ef;color:#14643c}.answer.wrong{border-color:#d85b5b;background:#fff0f0;color:#a22}
+.feedback{min-height:54px;text-align:center;padding:12px;margin:10px auto;max-width:760px;border-radius:10px;font-weight:650}.feedback.good{background:var(--greenbg);color:var(--green)}.feedback.bad{background:var(--redbg);color:var(--red)}
+.timer{font-weight:850;color:var(--amber);background:var(--amberbg);padding:7px 11px;border-radius:9px}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.9rem}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line);vertical-align:top}th{background:#f0f4ff;color:#24429b}
+.badge{display:inline-block;padding:3px 8px;border-radius:99px;font-size:.75rem;font-weight:800}.pass{background:var(--greenbg);color:var(--green)}.fail{background:var(--redbg);color:var(--red)}.pending{background:#eef1f6;color:#596579}
+footer{text-align:center;padding:20px;color:#94a0b1;font-size:.82rem}
+@media(max-width:780px){.hero{grid-template-columns:1fr}.hero-art{min-height:120px}.grid3,.statrow{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}header{position:static}.answers{grid-template-columns:1fr}}
+@media(max-width:470px){.grid3,.statrow{grid-template-columns:1fr}main{padding:0 13px 30px}}
+</style>
+</head>
+<body>
+<header>
+ <div class="brand">✳ MultiplyLab <span>MEDIA PEMBELAJARAN INTERAKTIF · OPERASI PERKALIAN</span></div>
+ <nav id="topnav" class="hidden">
+  <button data-view="studentHome" class="active">Beranda</button>
+  <button data-view="materials">Materi & Latihan</button>
+  <button data-view="studentDash">Dashboard Siswa</button>
+  <button data-view="teacher">Dashboard Guru</button>
+ </nav>
+</header>
+<main>
+<section id="cover" class="view active">
+ <div class="hero">
+  <div><div class="eyebrow">Matematika · Kelas VII</div><h1>Belajar perkalian dengan latihan bertahap.</h1>
+   <p>Pelajari konsep operasi perkalian, kerjakan latihan dari tingkat dasar hingga lanjutan, dan pantau perkembangan belajarmu.</p>
+   <div class="row"><input id="studentCodeInput" placeholder="Kode siswa dari guru" maxlength="30" aria-label="Kode siswa"><input id="studentNameInput" placeholder="Masukkan nama siswa" maxlength="50" aria-label="Nama siswa"><button class="btn" onclick="enterStudent()">Mulai belajar →</button></div>
+   <p class="small" style="color:#dce5ff">Masukkan kode siswa dan nama sesuai daftar dari guru. Hasil latihan akan disimpan secara daring.</p>
+  </div><div class="hero-art">✖️ 📚</div>
+ </div>
+ <div class="panel" style="margin-top:18px"><h2>Petunjuk penggunaan</h2><div class="grid3">
+  <div><b>01 · Pelajari</b><p class="small">Baca materi dan contoh pada setiap tingkat.</p></div>
+  <div><b>02 · Berlatih</b><p class="small">Selesaikan tiga tahap latihan, masing-masing lima soal.</p></div>
+  <div><b>03 · Tuntaskan</b><p class="small">Raih nilai minimal 70 untuk membuka tahap berikutnya.</p></div>
+ </div><button class="btn light" onclick="openTeacherLogin()">Masuk sebagai guru</button></div>
+</section>
+
+<section id="studentHome" class="view">
+ <div class="eyebrow">Ruang belajar siswa</div><h1 id="welcome">Selamat datang!</h1><p>Ikuti urutan materi dari dasar hingga lanjutan. Setiap latihan dapat diulang jika nilai belum mencapai ketuntasan.</p><div id="cloudStudentStatus" class="callout small">Status penyimpanan daring akan ditampilkan di sini.</div>
+ <div class="statrow">
+  <div class="stat"><strong id="homeScore">0</strong><span>Total skor latihan</span></div>
+  <div class="stat"><strong id="homeDone">0</strong><span>Soal dikerjakan</span></div>
+  <div class="stat"><strong id="homePass">0/9</strong><span>Latihan tuntas</span></div>
+  <div class="stat"><strong id="homeEval">—</strong><span>Nilai evaluasi</span></div>
+ </div>
+ <div class="panel"><div class="row between"><h2>Jalur pembelajaran</h2><span class="pill">Ketuntasan ≥ 70</span></div><div id="homeLevels" class="grid3"></div></div>
+</section>
+
+<section id="materials" class="view">
+ <div class="row between"><div><div class="eyebrow">Materi pembelajaran</div><h1>Materi dan latihan</h1></div><button class="btn outline" onclick="showView('studentHome')">← Beranda</button></div>
+ <div id="levelPicker" class="grid3"></div>
+ <div id="lessonPanel" class="panel hidden"></div>
+</section>
+
+<section id="practice" class="view">
+ <div class="row between"><div><div class="eyebrow" id="practiceEyebrow">DRILL AND PRACTICE</div><h1 id="practiceTitle">Latihan</h1></div><button class="btn outline" onclick="showView('materials')">Keluar latihan</button></div>
+ <div class="panel">
+  <div class="row between"><b id="qCounter">Soal 1 dari 5</b><div class="row"><span id="timer" class="timer hidden">00:00</span><span id="qScore" class="pill">Skor: 0</span></div></div>
+  <div class="progress" style="margin-top:12px"><div id="qProgress"></div></div>
+  <div id="qText" class="question">Pertanyaan</div>
+  <div id="qAnswers" class="answers"></div>
+  <div id="qInputWrap" class="row hidden" style="justify-content:center"><input id="qInput" type="number" placeholder="Ketik jawaban" style="width:190px"><button class="btn" onclick="submitTyped()">Periksa jawaban</button></div>
+  <div id="qFeedback" class="feedback"></div>
+  <div class="row" style="justify-content:center"><button id="nextQuestion" class="btn" disabled onclick="advanceQuestion()">Soal berikutnya →</button></div>
+ </div>
+ <div class="callout">Perhatikan pembahasan setelah menjawab. Umpan balik diberikan agar kamu dapat memperbaiki kesalahan dan memahami cara menghitung.</div>
+</section>
+
+<section id="studentDash" class="view">
+ <div class="eyebrow">Monitoring mandiri</div><h1>Dashboard siswa</h1><p id="dashStudentName"></p>
+ <div class="statrow">
+  <div class="stat"><strong id="dashScore">0</strong><span>Total skor</span></div><div class="stat"><strong id="dashDone">0</strong><span>Jumlah soal</span></div><div class="stat"><strong id="dashPass">0/9</strong><span>Latihan tuntas</span></div><div class="stat"><strong id="dashEval">—</strong><span>Nilai evaluasi</span></div>
+ </div>
+ <div class="panel"><h2>Status ketuntasan setiap latihan</h2><div id="studentStatus"></div></div>
+ <div class="panel"><h2>Riwayat aktivitas</h2><div id="studentHistory"></div></div>
+ <div class="callout good small">Data aktivitas yang berhasil dikirim tersimpan di database kelas dan dapat diakses guru dari perangkat berbeda.</div>
+</section>
+
+<section id="teacher" class="view">
+ <div class="row between"><div><div class="eyebrow">Monitoring pembelajaran</div><h1>Dashboard guru</h1></div><button class="btn outline" onclick="showView('studentHome')">Kembali ke siswa</button></div>
+ <div class="callout good small">Dashboard ini mengambil data kelas dari Supabase. Pastikan PIN guru hanya dibagikan kepada guru/peneliti.</div>
+ <div class="statrow">
+  <div class="stat"><strong id="teacherStudents">0</strong><span>Siswa tercatat</span></div><div class="stat"><strong id="teacherAverage">—</strong><span>Rata-rata evaluasi</span></div><div class="stat"><strong id="teacherPassRate">0%</strong><span>Ketuntasan evaluasi</span></div><div class="stat"><strong id="teacherAttempts">0</strong><span>Total latihan selesai</span></div>
+ </div>
+ <div class="panel"><h2>Progres belajar siswa</h2><div id="teacherProgress"></div></div>
+ <div class="panel"><h2>Hasil latihan setiap siswa</h2><div id="teacherResults"></div></div>
+ <div class="grid2">
+  <div class="panel"><h2>Analisis kesalahan</h2><div id="errorAnalysis"></div></div>
+  <div class="panel"><h2>Waktu pengerjaan</h2><div id="timeAnalysis"></div></div>
+ </div>
+ <div class="panel"><h2>Rekapitulasi hasil kelas</h2><div id="classRecap"></div></div>
+ <div class="panel"><h2>Rekomendasi pembelajaran</h2><div id="recommendations"></div></div>
+ <div class="row"><button class="btn light" onclick="exportClassCSV()">Unduh rekap CSV</button><button class="btn outline" onclick="switchStudent()">Ganti nama siswa</button></div>
+</section>
+</main>
+<footer>MultiplyLab · Prototipe media pembelajaran interaktif berbasis drill and practice</footer>
+
+<script>
+const $=id=>document.getElementById(id);
+const STORE='multiplylab_thesis_v3';
+let db=JSON.parse(localStorage.getItem(STORE)||'{"students":{}}'), currentName='', current=null;
+let teacherCloudData=null, teacherPinCache='', answerRecords=[], questionStartedAt=0;
+const levelInfo={
+ dasar:{title:'Materi Dasar',desc:'Konsep perkalian sebagai penjumlahan berulang.',content:`<h2>Konsep dasar operasi perkalian</h2><p>Perkalian merupakan penjumlahan berulang dari bilangan yang sama. Pada 4 × 3, bilangan 3 dijumlahkan sebanyak empat kali.</p><div class="lesson-visual">4 × 3 = 3 + 3 + 3 + 3 = 12</div><p>Contoh: terdapat 5 kantong. Setiap kantong berisi 2 kelereng. Jumlah seluruh kelereng adalah 5 × 2 = 10.</p><div class="callout">Ingat: faktor pertama menunjukkan banyak kelompok, sedangkan faktor kedua menunjukkan banyak benda pada setiap kelompok.</div>`},
+ menengah:{title:'Materi Menengah',desc:'Operasi perkalian bilangan dan sifat-sifat perkalian.',content:`<h2>Operasi dan sifat-sifat perkalian</h2><p>Perkalian bilangan dapat dihitung dengan fakta perkalian, pemecahan bilangan, dan sifat-sifat operasi.</p><table><tr><th>Sifat</th><th>Contoh</th><th>Keterangan</th></tr><tr><td>Komutatif</td><td>4 × 6 = 6 × 4</td><td>Urutan faktor dapat ditukar.</td></tr><tr><td>Asosiatif</td><td>(2 × 3) × 4 = 2 × (3 × 4)</td><td>Pengelompokan faktor tidak mengubah hasil.</td></tr><tr><td>Distributif</td><td>3 × (4 + 2) = 12 + 6</td><td>Perkalian didistribusikan ke penjumlahan.</td></tr><tr><td>Identitas</td><td>8 × 1 = 8</td><td>Bilangan dikali satu tetap sama.</td></tr></table><div class="lesson-visual">12 × 7 = (10 × 7) + (2 × 7) = 84</div>`},
+ lanjutan:{title:'Materi Lanjutan',desc:'Penerapan perkalian dalam masalah kontekstual.',content:`<h2>Penerapan operasi perkalian</h2><p>Operasi perkalian dapat digunakan untuk menyelesaikan masalah sehari-hari yang melibatkan kelompok dengan jumlah sama atau harga satuan.</p><div class="lesson-visual">Contoh: 1 buku seharga Rp4.000. Harga 6 buku = 6 × Rp4.000 = Rp24.000.</div><p>Langkah menyelesaikan soal cerita:</p><ol><li>Baca soal dengan teliti.</li><li>Tentukan informasi yang diketahui dan ditanyakan.</li><li>Pilih operasi perkalian yang sesuai.</li><li>Hitung dan tuliskan kesimpulan dengan satuan yang tepat.</li></ol>`}
+};
+const exerciseMeta=[
+ {id:'1.1',level:'dasar',name:'Latihan 1.1 · Pilihan ganda',type:'mc',timed:false},
+ {id:'1.2',level:'dasar',name:'Latihan 1.2 · Pilihan ganda dan isian',type:'mixed',timed:false},
+ {id:'1.3',level:'dasar',name:'Latihan 1.3 · Campuran bertempo',type:'mixed',timed:true,seconds:150},
+ {id:'2.1',level:'menengah',name:'Latihan 2.1 · Pilihan ganda',type:'mc',timed:false},
+ {id:'2.2',level:'menengah',name:'Latihan 2.2 · Isian singkat',type:'typed',timed:false},
+ {id:'2.3',level:'menengah',name:'Latihan 2.3 · Campuran bertempo',type:'mixed',timed:true,seconds:120},
+ {id:'3.1',level:'lanjutan',name:'Latihan 3.1 · Pilihan ganda',type:'mc',timed:false},
+ {id:'3.2',level:'lanjutan',name:'Latihan 3.2 · Soal cerita',type:'story',timed:false},
+ {id:'3.3',level:'lanjutan',name:'Latihan 3.3 · Campuran lanjutan',type:'mixed',timed:true,seconds:90}
+];
+function persist(){localStorage.setItem(STORE,JSON.stringify(db))}
+function student(){return current || {name:currentName,attempts:{},history:[],evaluation:null,totalScore:0,totalDone:0,totalCorrect:0}}
+function ensureStudent(name,studentId,kode){if(!db.students[kode])db.students[kode]={name,id:studentId,kode_siswa:kode,attempts:{},history:[],evaluation:null,totalScore:0,totalDone:0,totalCorrect:0};current=db.students[kode];current.name=name;current.id=studentId;current.kode_siswa=kode;currentName=name;persist()}
+async function enterStudent(){
+ const n=$('studentNameInput').value.trim(), kode=$('studentCodeInput').value.trim();
+ if(!n||!kode){alert('Masukkan kode siswa dan nama terlebih dahulu.');return}
+ const btn=document.querySelector('#cover .hero .btn'); if(btn)btn.disabled=true;
+ try{
+  const res=await fetch('/.netlify/functions/daftar-siswa',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({kode_siswa:kode,nama_siswa:n,kelas:'VII'})});
+  const payload=await res.json(); if(!res.ok)throw new Error(payload.message||'Identitas siswa gagal disimpan.');
+  const row=payload.siswa; ensureStudent(row.nama_siswa,row.id,row.kode_siswa);
+  // Sinkronkan progres dari database agar siswa dapat melanjutkan dari perangkat berbeda.
+  current={name:row.nama_siswa,id:row.id,kode_siswa:row.kode_siswa,attempts:{},history:[],evaluation:null,totalScore:0,totalDone:0,totalCorrect:0};
+  (payload.aktivitas||[]).forEach(a=>{
+   if(a.jenis_aktivitas!=='drill'||!a.kode_latihan)return;
+   const old=current.attempts[a.kode_latihan]||{best:0,attempts:0,elapsed:0,correct:0,total:5,errors:[]};
+   old.best=Math.max(old.best,Number(a.nilai)||0); old.attempts++; old.last=Number(a.nilai)||0; old.elapsed=Number(a.durasi_detik)||0; old.correct=Number(a.jumlah_benar)||0; old.total=Number(a.jumlah_soal)||5;
+   current.attempts[a.kode_latihan]=old; current.totalScore+=Number(a.nilai)||0; current.totalDone+=Number(a.jumlah_soal)||0; current.totalCorrect+=Number(a.jumlah_benar)||0;
+   current.history.push({date:new Date(a.waktu_selesai||a.created_at).toLocaleString('id-ID'),activity:'Latihan '+a.kode_latihan,score:Number(a.nilai)||0,correct:Number(a.jumlah_benar)||0,elapsed:Number(a.durasi_detik)||0});
+  });
+  const post=(payload.tes||[]).find(t=>t.jenis_tes==='posttest'); if(post)current.evaluation=Number(post.nilai);
+  current.history.sort((a,b)=>new Date(b.date)-new Date(a.date)); current.history=current.history.slice(0,60); db.students[kode]=current; persist();
+  $('cloudStudentStatus').textContent='Terhubung ke database. Progres belajar berhasil disinkronkan.';
+  $('topnav').classList.remove('hidden');showView('studentHome');renderStudentHome();
+ }catch(err){alert('Belum dapat terhubung ke database: '+err.message+'\nPeriksa deployment Netlify dan pengaturan Supabase.');}
+ finally{if(btn)btn.disabled=false;}
+}
+function switchStudent(){showView('cover');$('topnav').classList.add('hidden');$('studentNameInput').value='';$('studentCodeInput').value='';current=null;currentName=''}
+function showView(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));$(id).classList.add('active');document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===id));if(id==='studentHome')renderStudentHome();if(id==='materials')renderLevelPicker();if(id==='studentDash')renderStudentDashboard();if(id==='teacher')renderTeacherDashboard();window.scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));
+$('studentNameInput').addEventListener('keydown',e=>{if(e.key==='Enter')enterStudent()});$('studentCodeInput').addEventListener('keydown',e=>{if(e.key==='Enter')enterStudent()});
+async function openTeacherLogin(){
+ const pin=prompt('Masukkan PIN dashboard guru:'); if(pin===null)return;
+ try{const res=await fetch('/.netlify/functions/rekap-guru',{headers:{'x-teacher-pin':pin}});const data=await res.json();if(!res.ok)throw new Error(data.message||'PIN tidak sesuai atau dashboard belum dikonfigurasi.');teacherPinCache=pin;teacherCloudData=data;$('topnav').classList.remove('hidden');showView('teacher');}
+ catch(err){alert('Tidak dapat membuka dashboard guru: '+err.message);}
+}
+function passCount(s){return exerciseMeta.filter(e=>(s.attempts[e.id]?.best||0)>=70).length}
+function unlocked(e,s){let i=exerciseMeta.findIndex(x=>x.id===e.id);return i===0 || (s.attempts[exerciseMeta[i-1].id]?.best||0)>=70}
+function renderStudentHome(){let s=student();$('welcome').textContent='Selamat datang, '+s.name+'!';$('homeScore').textContent=s.totalScore;$('homeDone').textContent=s.totalDone;$('homePass').textContent=passCount(s)+'/9';$('homeEval').textContent=s.evaluation===null?'—':s.evaluation;$('homeLevels').innerHTML=['dasar','menengah','lanjutan'].map((l,i)=>{let es=exerciseMeta.filter(e=>e.level===l),done=es.filter(e=>(s.attempts[e.id]?.best||0)>=70).length;let open=i===0||(s.attempts[exerciseMeta[(i*3)-1]?.id]?.best||0)>=70;return `<div class="card ${open?'':'locked'}" onclick="${open?`showView('materials');openLesson('${l}')`:''}"><div class="icon">${['🔹','🔸','🏁'][i]}</div><h3>${levelInfo[l].title}</h3><p>${levelInfo[l].desc}</p><div class="progress"><div style="width:${done/3*100}%"></div></div><p class="small">${done}/3 latihan tuntas ${open?'':'· Terkunci'}</p></div>`}).join('')}
+function renderLevelPicker(){let s=student();$('levelPicker').innerHTML=['dasar','menengah','lanjutan'].map((l,i)=>{let ix=i*3,open=i===0||(s.attempts[exerciseMeta[ix-1]?.id]?.best||0)>=70;let es=exerciseMeta.filter(e=>e.level===l);return `<div class="card ${open?'':'locked'}" onclick="${open?`openLesson('${l}')`:''}"><div class="icon">${['🔹','🔸','🏁'][i]}</div><h3>${levelInfo[l].title}</h3><p>${levelInfo[l].desc}</p><span class="badge ${open?'pass':'pending'}">${open?'Dapat diakses':'Terkunci'}</span></div>`}).join('')}
+function openLesson(level){let s=student(),es=exerciseMeta.filter(e=>e.level===level);$('lessonPanel').classList.remove('hidden');$('lessonPanel').innerHTML=`<div class="row between"><div><span class="pill">${levelInfo[level].title}</span><h2 style="margin-top:10px">${levelInfo[level].title}</h2></div><button class="btn outline" onclick="$('lessonPanel').classList.add('hidden')">Tutup</button></div>${levelInfo[level].content}<div class="rule"></div><h2>Tahap latihan</h2><div class="grid3">${es.map(e=>{let a=s.attempts[e.id],p=a?.best||0,un=unlocked(e,s);return `<div class="card ${un?'':'locked'}" onclick="${un?`beginExercise('${e.id}')`:''}"><div class="row between"><b>${e.name}</b><span class="badge ${p>=70?'pass':a?'fail':'pending'}">${p>=70?'Tuntas':a?'Belum tuntas':'Belum dikerjakan'}</span></div><p class="small">${e.timed?'Batas waktu '+Math.floor(e.seconds/60)+' menit '+e.seconds%60+' detik':'5 soal · tanpa batas waktu'}</p><p>Nilai terbaik: <b>${a?p:'—'}</b></p><button class="btn ${un?'':'outline'}" ${un?'':'disabled'}>${p>=70?'Ulangi latihan':a?'Coba lagi':'Mulai latihan'}</button></div>`}).join('')}</div>`;$('lessonPanel').scrollIntoView({behavior:'smooth',block:'start'})}
+let activeExercise=null,questions=[],qIndex=0,correct=0,exerciseStart=0,remaining=0,timerHandle=null,answered=false,wrongTopics=[];
+function rint(a,b){return Math.floor(Math.random()*(b-a+1))+a}
+function mcQ(a,b,topic='perkalian'){let ans=a*b,opts=new Set([ans]);while(opts.size<4){let v=ans+rint(-Math.max(5,a),Math.max(5,a));if(v>0)opts.add(v)}return {text:`${a} × ${b} = ...`,answer:ans,opts:[...opts].sort(()=>Math.random()-.5),topic,explain:`${a} × ${b} berarti ${a} kelompok yang masing-masing berisi ${b}. Hasilnya ${ans}.`}}
+function buildQuestions(e){
+ let arr=[];
+ if(e.id==='1.1')arr=[mcQ(2,4),mcQ(3,5),mcQ(4,6),mcQ(5,7),mcQ(6,3)];
+ else if(e.id==='1.2')arr=[mcQ(3,4),{text:'6 × 5 = ...',answer:30,type:'typed',topic:'perkalian',explain:'6 × 5 = 5 + 5 + 5 + 5 + 5 + 5 = 30.'},mcQ(2,8),{text:'7 × 4 = ...',answer:28,type:'typed',topic:'perkalian',explain:'7 × 4 = 28.'},mcQ(9,3)];
+ else if(e.id==='1.3')arr=[mcQ(7,4),{text:'8 × 6 = ...',answer:48,type:'typed',topic:'perkalian',explain:'8 × 6 = 48.'},mcQ(9,5),{text:'5 kelompok berisi 8 benda. Berapa jumlah seluruh benda?',answer:40,type:'typed',topic:'penjumlahan berulang',explain:'5 × 8 = 40 benda.'},mcQ(6,7)];
+ else if(e.id==='2.1')arr=[mcQ(12,4),mcQ(15,3),mcQ(14,5),mcQ(16,4),mcQ(18,3)];
+ else if(e.id==='2.2')arr=[{text:'12 × 7 = ...',answer:84,type:'typed',topic:'perkalian bilangan lebih besar',explain:'12 × 7 = (10 × 7) + (2 × 7) = 70 + 14 = 84.'},{text:'9 × 13 = ...',answer:117,type:'typed',topic:'perkalian bilangan lebih besar',explain:'9 × 13 = 9 × (10 + 3) = 90 + 27 = 117.'},{text:'15 × 6 = ...',answer:90,type:'typed',topic:'perkalian bilangan lebih besar',explain:'15 × 6 = 90.'},{text:'14 × 8 = ...',answer:112,type:'typed',topic:'perkalian bilangan lebih besar',explain:'14 × 8 = 112.'},{text:'25 × 4 = ...',answer:100,type:'typed',topic:'perkalian bilangan lebih besar',explain:'25 × 4 = 100.'}];
+ else if(e.id==='2.3')arr=[mcQ(13,6,'perkalian bilangan lebih besar'),{text:'Gunakan sifat distributif: 7 × (10 + 2) = ...',answer:84,type:'typed',topic:'sifat distributif',explain:'7 × 10 + 7 × 2 = 70 + 14 = 84.'},mcQ(14,7,'perkalian bilangan lebih besar'),{text:'Sifat apa yang ditunjukkan 4 × 9 = 9 × 4?',answer:'komutatif',opts:['komutatif','asosiatif','distributif','identitas'],topic:'sifat perkalian',explain:'Sifat komutatif menyatakan urutan faktor dapat ditukar.'},mcQ(16,8,'perkalian bilangan lebih besar')];
+ else if(e.id==='3.1')arr=[mcQ(24,3,'penerapan perkalian'),mcQ(15,12,'penerapan perkalian'),mcQ(18,7,'penerapan perkalian'),mcQ(25,8,'penerapan perkalian'),mcQ(32,4,'penerapan perkalian')];
+ else if(e.id==='3.2')arr=[{text:'Satu kotak berisi 12 pensil. Berapa pensil dalam 5 kotak?',answer:60,type:'typed',topic:'soal cerita',explain:'5 × 12 = 60 pensil.'},{text:'Harga satu buku Rp4.000. Berapa harga 6 buku?',answer:24000,type:'typed',topic:'soal cerita',explain:'6 × Rp4.000 = Rp24.000.'},{text:'Ada 8 baris kursi. Setiap baris berisi 9 kursi. Berapa jumlah kursi?',answer:72,type:'typed',topic:'soal cerita',explain:'8 × 9 = 72 kursi.'},{text:'Petani menanam 15 bibit pada setiap baris. Jika ada 7 baris, berapa bibit seluruhnya?',answer:105,type:'typed',topic:'soal cerita',explain:'7 × 15 = 105 bibit.'},{text:'Satu paket berisi 24 botol. Berapa botol dalam 4 paket?',answer:96,type:'typed',topic:'soal cerita',explain:'4 × 24 = 96 botol.'}];
+ else arr=[mcQ(27,8,'perkalian lanjutan'),{text:'Sebuah toko menjual 18 paket berisi 12 pensil. Berapa pensil seluruhnya?',answer:216,type:'typed',topic:'soal cerita',explain:'18 × 12 = 216 pensil.'},mcQ(35,12,'perkalian lanjutan'),{text:'Gunakan distributif: 16 × 15 = ...',answer:240,type:'typed',topic:'sifat distributif',explain:'16 × (10 + 5) = 160 + 80 = 240.'},mcQ(24,15,'perkalian lanjutan')];
+ return arr;
+}
+function beginExercise(id){let s=student(),e=exerciseMeta.find(x=>x.id===id);if(!unlocked(e,s)){alert('Selesaikan latihan sebelumnya dengan nilai minimal 70 terlebih dahulu.');return}activeExercise=e;questions=buildQuestions(e);qIndex=0;correct=0;wrongTopics=[];answerRecords=[];exerciseStart=Date.now();remaining=e.timed?e.seconds:0;showView('practice');$('practiceTitle').textContent=e.name;$('practiceEyebrow').textContent=levelInfo[e.level].title.toUpperCase();if(timerHandle)clearInterval(timerHandle);if(e.timed){$('timer').classList.remove('hidden');updateTimer();timerHandle=setInterval(()=>{remaining--;updateTimer();if(remaining<=0){clearInterval(timerHandle);finishExercise(true)}},1000)}else $('timer').classList.add('hidden');renderQuestion()}
+function updateTimer(){$('timer').textContent='⏱ '+String(Math.floor(remaining/60)).padStart(2,'0')+':'+String(remaining%60).padStart(2,'0')}
+function renderQuestion(){answered=false;questionStartedAt=Date.now();let q=questions[qIndex];$('qCounter').textContent=`Soal ${qIndex+1} dari 5`;$('qScore').textContent='Benar: '+correct;$('qProgress').style.width=(qIndex/5*100)+'%';$('qText').textContent=q.text;$('qFeedback').textContent='';$('qFeedback').className='feedback';$('nextQuestion').disabled=true;$('nextQuestion').textContent=qIndex===4?'Lihat hasil latihan':'Soal berikutnya →';$('qAnswers').innerHTML='';$('qInputWrap').classList.add('hidden');$('qInput').value='';
+ if(q.type==='typed'){$('qInputWrap').classList.remove('hidden');$('qInput').focus()}else{q.opts.forEach(v=>{let b=document.createElement('button');b.className='answer';b.textContent=v;b.onclick=()=>checkAnswer(v,b);$('qAnswers').appendChild(b)})}}
+function recordAnswer(value,ok,q){answerRecords.push({nomor_soal:qIndex+1,kode_soal:activeExercise.id+'-'+(qIndex+1),jenis_soal:q.type||'pilihan_ganda',pertanyaan:q.text,jawaban_siswa:String(value),kunci_jawaban:String(q.answer),status_benar:ok,durasi_detik:Math.max(0,Math.round((Date.now()-questionStartedAt)/1000)),kategori_kesalahan:ok?null:(q.topic||'belum dikategorikan')})}
+function checkAnswer(v,button){if(answered)return;let q=questions[qIndex],ok=String(v).toLowerCase()===String(q.answer).toLowerCase();answered=true;recordAnswer(v,ok,q);if(ok)correct++;else wrongTopics.push(q.topic);document.querySelectorAll('.answer').forEach(b=>{b.disabled=true;if(String(b.textContent).toLowerCase()===String(q.answer).toLowerCase())b.classList.add('correct');else if(b===button)b.classList.add('wrong')});showFeedback(ok,q);$('nextQuestion').disabled=false;$('qScore').textContent='Benar: '+correct}
+function submitTyped(){if(answered)return;let val=$('qInput').value;if(val.trim()===''){alert('Isi jawaban terlebih dahulu.');return}let q=questions[qIndex];let ok=String(val).trim().toLowerCase()===String(q.answer).toLowerCase();answered=true;recordAnswer(val,ok,q);if(ok)correct++;else wrongTopics.push(q.topic);$('qInput').disabled=true;$('qInputWrap').querySelector('button').disabled=true;showFeedback(ok,q);$('nextQuestion').disabled=false;$('qScore').textContent='Benar: '+correct}
+function showFeedback(ok,q){$('qFeedback').className='feedback '+(ok?'good':'bad');$('qFeedback').innerHTML=(ok?'✓ Jawaban benar. ':'✕ Jawaban belum tepat. ')+q.explain}
+function advanceQuestion(){if(qIndex<4){qIndex++;renderQuestion()}else finishExercise(false)}
+function finishExercise(timeout){if(timerHandle)clearInterval(timerHandle);let elapsed=Math.round((Date.now()-exerciseStart)/1000),score=correct*20,s=student(),old=s.attempts[activeExercise.id]||{best:0,attempts:0};old.best=Math.max(old.best,score);old.last=score;old.attempts++;old.elapsed=elapsed;old.correct=correct;old.total=5;old.errors=wrongTopics.slice();s.attempts[activeExercise.id]=old;s.totalScore+=score;s.totalDone+=5;s.totalCorrect+=correct;s.history.unshift({date:new Date().toLocaleString('id-ID'),activity:activeExercise.name,score,correct,elapsed,timeout});s.history=s.history.slice(0,60);persist();saveActivityToCloud({siswa_id:s.id,jenis_aktivitas:'drill',level:activeExercise.level,kode_latihan:activeExercise.id,percobaan_ke:old.attempts,jumlah_soal:5,jumlah_benar:correct,jumlah_salah:5-correct,nilai:score,durasi_detik:elapsed,status_lulus:score>=70,waktu_mulai:new Date(exerciseStart).toISOString(),waktu_selesai:new Date().toISOString(),answers:answerRecords}).then(()=>{if($('cloudStudentStatus'))$('cloudStudentStatus').textContent='Hasil latihan berhasil tersimpan ke database Supabase.'}).catch(err=>{if($('cloudStudentStatus'))$('cloudStudentStatus').textContent='Peringatan: hasil tersimpan di perangkat, tetapi gagal dikirim ke database: '+err.message;});$('qProgress').style.width='100%';$('qCounter').textContent='Latihan selesai';$('qText').textContent=timeout?'Waktu pengerjaan habis':'Latihan selesai';$('qAnswers').innerHTML='';$('qInputWrap').classList.add('hidden');$('qFeedback').className='feedback '+(score>=70?'good':'bad');$('qFeedback').innerHTML=`Nilai latihan: <b>${score}</b>/100 (${correct}/5 benar). ${score>=70?'Selamat, kamu tuntas dan dapat membuka latihan berikutnya.':'Nilai belum mencapai 70. Pelajari kembali pembahasan, lalu ulangi latihan ini.'}`;$('nextQuestion').disabled=false;$('nextQuestion').textContent='Kembali ke materi';$('nextQuestion').onclick=()=>{ $('nextQuestion').onclick=advanceQuestion;showView('materials');openLesson(activeExercise.level)}}
+async function saveActivityToCloud(activity){
+ const response=await fetch('/.netlify/functions/simpan-aktivitas',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(activity)});
+ const result=await response.json();if(!response.ok||!result.success)throw new Error(result.message||'Pengiriman hasil latihan gagal.');return result;
+}
+async function saveTestToCloud(test){
+ const response=await fetch('/.netlify/functions/simpan-tes',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(test)});
+ const result=await response.json();if(!response.ok||!result.success)throw new Error(result.message||'Pengiriman hasil tes gagal.');return result;
+}
+function renderStudentDashboard(){let s=student();$('dashStudentName').textContent='Nama siswa: '+s.name;$('dashScore').textContent=s.totalScore;$('dashDone').textContent=s.totalDone;$('dashPass').textContent=passCount(s)+'/9';$('dashEval').textContent=s.evaluation===null?'—':s.evaluation;$('studentStatus').innerHTML='<table><tr><th>Latihan</th><th>Nilai terbaik</th><th>Status</th><th>Waktu terakhir</th></tr>'+exerciseMeta.map(e=>{let a=s.attempts[e.id],p=a?.best||0;return `<tr><td>${e.name}</td><td>${a?p:'—'}</td><td><span class="badge ${p>=70?'pass':a?'fail':'pending'}">${p>=70?'Tuntas':a?'Belum tuntas':'Belum dikerjakan'}</span></td><td>${a?formatTime(a.elapsed):'—'}</td></tr>`}).join('')+'</table>';$('studentHistory').innerHTML=s.history.length?'<table><tr><th>Waktu</th><th>Aktivitas</th><th>Nilai</th><th>Durasi</th></tr>'+s.history.map(h=>`<tr><td>${h.date}</td><td>${h.activity}</td><td>${h.score}</td><td>${formatTime(h.elapsed)}</td></tr>`).join('')+'</table>':'<p class="muted">Belum ada aktivitas belajar.</p>'}
+function formatTime(sec){return Math.floor(sec/60)+' m '+(sec%60)+' d'}
+async function renderTeacherDashboard(){
+ if(!teacherCloudData){$('teacherProgress').innerHTML='<p class="muted">Silakan masuk kembali menggunakan PIN guru.</p>';return;}
+ const students=teacherCloudData.siswa||[],activities=teacherCloudData.aktivitas||[],tests=teacherCloudData.tes||[],details=teacherCloudData.detail||[];
+ const testByStudent=new Map(tests.map(t=>[t.siswa_id,t]));
+ const avg=tests.length?Math.round(tests.reduce((n,t)=>n+Number(t.nilai||0),0)/tests.length):null;
+ const passed=tests.filter(t=>Number(t.nilai)>=70).length;
+ $('teacherStudents').textContent=students.length;$('teacherAverage').textContent=avg===null?'—':avg;$('teacherPassRate').textContent=tests.length?Math.round(passed/tests.length*100)+'%':'0%';$('teacherAttempts').textContent=activities.length;
+ const bestByStudent={};activities.forEach(a=>{const k=a.siswa_id;bestByStudent[k]??={};const id=a.kode_latihan;if(id)bestByStudent[k][id]=Math.max(bestByStudent[k][id]||0,Number(a.nilai)||0)});
+ $('teacherProgress').innerHTML=students.length?'<table><tr><th>Kode siswa</th><th>Nama siswa</th><th>Progres tuntas</th><th>Posttest</th><th>Status</th></tr>'+students.map(st=>{const p=Object.values(bestByStudent[st.id]||{}).filter(v=>v>=70).length,ev=testByStudent.get(st.id)?.nilai;return `<tr><td>${esc(st.kode_siswa||'')}</td><td>${esc(st.nama_siswa)}</td><td>${p}/9</td><td>${ev===undefined?'—':ev}</td><td><span class="badge ${ev!==undefined&&Number(ev)>=70?'pass':'pending'}">${ev===undefined?'Belum evaluasi':Number(ev)>=70?'Tuntas':'Perlu bimbingan'}</span></td></tr>`}).join('')+'</table>':'<p class="muted">Belum ada siswa terdaftar.</p>';
+ $('teacherResults').innerHTML=activities.length?'<table><tr><th>Siswa</th><th>Latihan</th><th>Nilai</th><th>Benar</th><th>Percobaan</th><th>Durasi</th><th>Waktu</th></tr>'+activities.map(a=>{const st=a.data_siswa||{};return `<tr><td>${esc(st.nama_siswa||a.siswa_id)}</td><td>${esc(a.kode_latihan||'')}</td><td>${a.nilai??'—'}</td><td>${a.jumlah_benar??0}/${a.jumlah_soal??0}</td><td>${a.percobaan_ke??1}</td><td>${formatTime(a.durasi_detik||0)}</td><td>${new Date(a.waktu_selesai||a.created_at).toLocaleString('id-ID')}</td></tr>`}).join('')+'</table>':'<p class="muted">Belum ada hasil latihan.</p>';
+ const errors={};details.forEach(d=>{if(!d.status_benar&&d.kategori_kesalahan)errors[d.kategori_kesalahan]=(errors[d.kategori_kesalahan]||0)+1});const err=Object.entries(errors).sort((a,b)=>b[1]-a[1]);
+ $('errorAnalysis').innerHTML=err.length?'<ul>'+err.map(([t,n])=>`<li>${esc(t)}: <b>${n}</b> kesalahan tercatat</li>`).join('')+'</ul>':'<p class="muted">Belum ada data kesalahan.</p>';
+ const avgTime=activities.length?Math.round(activities.reduce((n,a)=>n+Number(a.durasi_detik||0),0)/activities.length):0;$('timeAnalysis').innerHTML=activities.length?`<p>Rata-rata durasi per latihan: <b>${formatTime(avgTime)}</b>.</p>`:'<p class="muted">Belum ada data waktu pengerjaan.</p>';
+ $('classRecap').innerHTML=`<p>Jumlah siswa terdaftar: <b>${students.length}</b></p><p>Jumlah aktivitas latihan: <b>${activities.length}</b></p><p>Rata-rata nilai posttest: <b>${avg===null?'Belum tersedia':avg}</b></p><p>Persentase ketuntasan posttest (nilai ≥70): <b>${tests.length?Math.round(passed/tests.length*100):0}%</b></p>`;
+ const rec=[];students.forEach(st=>{const weak=exerciseMeta.filter(e=>(bestByStudent[st.id]?.[e.id]??-1)>=0&&(bestByStudent[st.id][e.id]<70));if(weak.length)rec.push(`${esc(st.nama_siswa)} perlu penguatan pada ${weak.map(x=>x.name).join(', ')}.`);const ev=testByStudent.get(st.id)?.nilai;if(ev!==undefined&&Number(ev)<70)rec.push(`${esc(st.nama_siswa)} disarankan mengikuti bimbingan dan latihan ulang.`)});if(err.length)rec.push(`Berikan penguatan kelas pada topik yang paling sering salah: ${esc(err[0][0])}.`);if(!rec.length)rec.push('Belum ada rekomendasi khusus.');$('recommendations').innerHTML='<ul>'+rec.map(x=>'<li>'+x+'</li>').join('')+'</ul>';
+}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function exportClassCSV(){
+ const activities=teacherCloudData?.aktivitas||[];const rows=[['Kode siswa','Nama siswa','Latihan','Nilai','Jumlah soal','Benar','Salah','Percobaan','Durasi detik','Waktu selesai']];
+ activities.forEach(a=>{const st=a.data_siswa||{};rows.push([st.kode_siswa||'',st.nama_siswa||'',a.kode_latihan||'',a.nilai??'',a.jumlah_soal??'',a.jumlah_benar??'',a.jumlah_salah??'',a.percobaan_ke??1,a.durasi_detik??'',a.waktu_selesai||a.created_at||''])});
+ const csv=rows.map(r=>r.map(v=>'"'+String(v).replaceAll('"','""')+'"').join(',')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='rekap-multiplylab-supabase.csv';a.click();URL.revokeObjectURL(a.href);
+}
+// Evaluasi akhir: tanpa feedback langsung selama pengerjaan, hasil ditampilkan setelah semua soal.
+function startFinalEvaluation(){let s=student();if(passCount(s)<9){alert('Selesaikan seluruh 9 latihan dengan nilai minimal 70 sebelum mengikuti evaluasi akhir.');return}let qs=Array.from({length:10},()=>{let a=rint(8,25),b=rint(4,15);return {a,b,ans:a*b}});let i=0,right=0,started=Date.now(),testAnswers=[];function draw(){let q=qs[i];$('lessonPanel').innerHTML=`<h2>Evaluasi akhir · Soal ${i+1}/10</h2><div class="progress"><div style="width:${i*10}%"></div></div><div class="question">${q.a} × ${q.b} = ?</div><div class="row" style="justify-content:center"><input id="finalAns" type="number" placeholder="Jawaban"><button class="btn" id="finalSubmit">Kirim jawaban</button></div><p class="small muted" style="text-align:center">Tidak ada umpan balik benar/salah sampai evaluasi selesai.</p>`;$('finalSubmit').onclick=()=>{let v=$('finalAns').value;if(v==='')return alert('Isi jawaban terlebih dahulu.');const ok=Number(v)===q.ans;if(ok)right++;testAnswers.push({nomor_soal:i+1,pertanyaan:`${q.a} × ${q.b} = ?`,jawaban_siswa:String(v),kunci_jawaban:String(q.ans),status_benar:ok});i++;if(i<qs.length)draw();else{let score=right*10;s.evaluation=score;saveTestToCloud({siswa_id:s.id,jenis_tes:'posttest',jumlah_soal:10,jumlah_benar:right,jumlah_salah:10-right,nilai:score,durasi_detik:Math.round((Date.now()-started)/1000)}).then(()=>{if($('cloudStudentStatus'))$('cloudStudentStatus').textContent='Hasil posttest berhasil disimpan ke Supabase.'}).catch(err=>{if($('cloudStudentStatus'))$('cloudStudentStatus').textContent='Peringatan: posttest belum tersimpan ke database: '+err.message;});s.history.unshift({date:new Date().toLocaleString('id-ID'),activity:'Evaluasi akhir',score,correct:right,elapsed:0});persist();renderStudentDashboard();$('lessonPanel').innerHTML=`<div class="callout good"><h2>Evaluasi selesai</h2><div class="question">${score}/100</div><p>Jawaban benar: ${right} dari 10 soal.</p></div><button class="btn" onclick="showView('studentDash')">Lihat dashboard</button>`}}}draw()}
+const oldOpenLesson=openLesson;openLesson=function(level){oldOpenLesson(level);let s=student();if(passCount(s)===9){let b=document.createElement('div');b.className='panel';b.innerHTML='<h2>Evaluasi akhir</h2><p>Seluruh latihan telah mencapai nilai minimal 70. Kamu dapat mengikuti evaluasi akhir tanpa umpan balik langsung.</p><button class="btn" id="startFinal">Mulai evaluasi akhir</button>';$('lessonPanel').appendChild(b);$('startFinal').onclick=startFinalEvaluation}}
+function init(){if(currentName){renderStudentHome()}}
+</script>
+</body></html>
